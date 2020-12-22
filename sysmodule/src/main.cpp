@@ -23,9 +23,6 @@
 
 #define INNER_HEAP_SIZE 0x30000
 
-Thread t0;
-bool threadexit = false;
-
 extern "C"
 {
     extern std::uint32_t __start__;
