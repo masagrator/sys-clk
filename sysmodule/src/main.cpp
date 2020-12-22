@@ -23,6 +23,9 @@
 
 #define INNER_HEAP_SIZE 0x30000
 
+Thread t0;
+bool threadexit = false;
+
 extern "C"
 {
     extern std::uint32_t __start__;
@@ -94,13 +97,18 @@ int main(int argc, char **argv)
         clockMgr->SetRunning(true);
         clockMgr->GetConfig()->SetEnabled(true);
         ipcSrv->SetRunning(true);
+		
+		ClkrstSession session = {0};
+		clkrstOpenSession(&session, PcvModuleId_CpuBus, 3);
+		clkrstSetClockRate(&session, 1785000000);
 
         while (clockMgr->Running())
         {
             clockMgr->Tick();
             clockMgr->WaitForNextTick();
         }
-
+		
+		clkrstCloseSession(&session);
         ipcSrv->SetRunning(false);
         delete ipcSrv;
         ClockManager::Exit();
