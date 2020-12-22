@@ -214,6 +214,8 @@ SysClkProfile Clocks::GetCurrentProfile()
 
 void Clocks::SetHz(SysClkModule module, std::uint32_t hz)
 {
+	if (module == SysClkModule_CPU) return;
+	
     Result rc = 0;
 
     if(hosversionAtLeast(8,0,0))
@@ -237,6 +239,8 @@ void Clocks::SetHz(SysClkModule module, std::uint32_t hz)
 
 std::uint32_t Clocks::GetCurrentHz(SysClkModule module)
 {
+	if (module == SysClkModule_CPU) return (std::uint32_t)1785000000;
+	
     Result rc = 0;
     std::uint32_t hz = 0;
 
